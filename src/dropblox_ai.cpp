@@ -334,7 +334,9 @@ int Board::rankAll(Block* block){
 	int final_score = 0;
 	for(i = 0; i < block.offsets.size(); i++){
 		Point p = block.offsets[i];
-		new_bitmap[p.i][p.j] = 1;
+		Point c = block.center;
+		Point t = block.translation;
+		new_bitmap[p.i+c.i+t.i][p.j+c.i+t.i] = 1;
 	}
 	final_score += rankLine(new_bitmap);
 	final_score += rankHole(new_bitmap);

@@ -186,7 +186,7 @@ vector<string> Board::find_path(Block* start, Block* end){
 	while(end.translation != start.translation){
 		while(end.translation.j != start.translation.j){
 			end.up();
-			if(check(end){
+			if(check(end)){
 				commands.push_back("down");
 			}
 			else{

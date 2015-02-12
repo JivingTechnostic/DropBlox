@@ -339,7 +339,20 @@ int rankHole(Bitmap* map){
 	}
 }
 int rankFlat(Bitmap* map);
-int rankHeight(Bitmap* map);
+int rankHeight(Bitmap* map){
+	int SCORE_HEIGHT = -1;
+	int final_score = 0;
+	for(int j = 0; j < COLS; j++){
+		int height = 0;
+		for(int i = ROWS-1; i >= 0; i--){
+			if(map[i][j] == 1){
+				height = i;
+			}
+		}
+		final_score += SCORE_HEIGHT * height * min(j,COLS-j);
+	}
+	return final_score;
+}
 int rankFuture(Bitmap* map);
 
 

@@ -298,3 +298,47 @@ int main(int argc, char** argv) {
     cout << moves[i] << endl;
   }
 }
+
+vector <Block*> Board::checkAllPositions(Block baseBlock) {
+  // scan bitmap from bottom up
+  // try placing the block's center in each of the possible spaces until you pass the nth completely unoccupied row, where n is the radius of the block.
+  int radius = 0;
+
+  for (int i = 0; i < baseBlock.size; i++) {
+    if (Math.abs(offsets[i].i) > radius) {
+      radius = Math.abs(offsets[i].i);
+    } if (Math.abs(offsets[i].j) > radius) {
+      radius = Math.abs(offsets[i].j);
+    }
+  }
+  vector <Block*> goodBlocks = new vector<Block*>();
+
+  int emptyRowCount = 0;
+  bool emptyRow = true;
+  for (int i = 1; i < board.rows; i++) {
+    for (int j = 0; j < board.cols; j++) {
+      if (board.bitmap[board.rows - i][j] == 0) {
+        Point p;
+        p.i = i;
+        p.j = j;
+        Block * b new Block(baseBlock);
+        b->translation = p;
+        if (check(b)) {
+          goodBlocks->push_back(b);
+        }
+      } else {
+        emptyRow = false;
+      }
+    }
+    if (emptyRow) {
+      emptyRowCount++;
+      emptyRow = true;
+    }
+    if (emptyRowCount > radius) {
+      break;
+    }
+  }
+
+  return goodBlocks;
+
+}

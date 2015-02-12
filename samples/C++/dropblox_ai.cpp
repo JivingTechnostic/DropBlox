@@ -287,7 +287,7 @@ int main(int argc, char** argv) {
   Board board(state);
 
   // Make some moves!
-  vector<string> moves;
+  vector<st ring> moves;
   while (board.check(*board.block)) {
     board.block->left();
     moves.push_back("left");
@@ -297,4 +297,8 @@ int main(int argc, char** argv) {
   for (int i = 0; i < moves.size() - 1; i++) {
     cout << moves[i] << endl;
   }
+}
+
+vector<Block> Board::checkAllPositions(Block baseBlock) {
+
 }

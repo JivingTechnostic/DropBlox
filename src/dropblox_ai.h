@@ -77,6 +77,9 @@ class Board {
   // Returns true if the `query` block is in valid position - that is, if all of
   // its squares are in bounds and are currently unoccupied.
   bool check(const Block& query) const;
+  
+  // Finds path from a given starting point to an endpoint
+  vector<string> find_path(Block* start, Block* end);
 
   // Resets the block's position, moves it according to the given commands, then
   // drops it onto the board. Returns a pointer to the new board state object.

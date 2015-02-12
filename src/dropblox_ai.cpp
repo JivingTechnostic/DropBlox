@@ -181,6 +181,58 @@ bool Board::check(const Block& query) const {
   return true;
 }
 
+vector<string> Board::find_path(Block* start, Block* end){
+	vector<string> commands;
+	while(end.translation != start.translation){
+		while(end.translation.j != start.translation.j){
+			end.up();
+			if(check(end){
+				commands.push_back("down");
+			}
+			else{
+				end.down();
+				end.right();
+				if(check(end)){
+					commands.push_back("left");
+				}
+				else{
+					end.left();
+					end.left();
+					if(check(end)){
+						commands.push_back("right");
+					}
+					else{
+						end.right();
+						while(!check(end)){
+							end.rotate();
+							commands.push_back("rotate");
+						}
+					}
+				}
+			}
+		}
+		if(end.translation.i > start.translation.i){
+			end.left();
+			commands.push_back("right");
+		}
+		else if(end.translation.i < start.translation.i){
+			end.right();
+			commands.push_back("left");
+		}
+	}
+	while(end.rotate%4 != start.rotate%4){
+		end.rotate();
+		commands.push_back("rotate");
+	}
+	
+	vector<string> final_commands;
+	for(int i = commands.size()-1; i > 0; i--){
+		final_commands.push_back(commands.at(i));
+	}
+	
+	return final_commands;
+}
+
 // Resets the block's position, moves it according to the given commands, then
 // drops it onto the board. Returns a pointer to the new board state object.
 //

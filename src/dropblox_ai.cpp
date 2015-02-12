@@ -331,15 +331,16 @@ void Board::remove_rows(Bitmap* new_bitmap) {
 
 int Board::rankAll(Block* block){
 	Bitmap* new_bitmap = &bitmap;
+	int final_score = 0;
 	for(i = 0; i < block.offsets.size(); i++){
 		Point p = block.offsets[i];
 		new_bitmap[p.i][p.j] = 1;
 	}
-	rankLine(new_bitmap);
-	rankHole(new_bitmap);
-	rankFlat(new_bitmap);
-	rankHeight(new_bitmap);
-	rankFuture(new_bitmap);
+	final_score += rankLine(new_bitmap);
+	final_score += rankHole(new_bitmap);
+	final_score += rankFlat(new_bitmap);
+	final_score += rankHeight(new_bitmap);
+	final_score += rankFuture(new_bitmap);
 }
 
 //complete lines and partial lines
@@ -405,7 +406,9 @@ int rankHeight(Bitmap* map){
 	}
 	return final_score;
 }
-int rankFuture(Bitmap* map);
+int rankFuture(Bitmap* map){
+	return 0;
+}
 
 
 int main(int argc, char** argv) {

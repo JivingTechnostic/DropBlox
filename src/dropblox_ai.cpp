@@ -186,7 +186,7 @@ vector<string> Board::find_path(Block* start, Block* end){
 	while(end.translation != start.translation){
 		while(end.translation.j != start.translation.j){
 			end.up();
-			if(check(end){
+			if(check(end)){
 				commands.push_back("down");
 			}
 			else{
@@ -344,7 +344,7 @@ int Board::rankAll(Block* block){
 }
 
 //complete lines and partial lines
-int rankLine(Bitmap* map){
+int Board::rankLine(Bitmap* map){
 	int SCORE_LINE = 100;
 	int SCORE_PARTIAL = 1;
 	int line_score;
@@ -367,7 +367,7 @@ int rankLine(Bitmap* map){
 }
 
 
-int rankHole(Bitmap* map){
+int Board::rankHole(Bitmap* map){
 	int SCORE_OPEN = -10;
 	int SCORE_CLOSED = - 100;
 	int SCORE_FILL = 25;
@@ -391,8 +391,45 @@ int rankHole(Bitmap* map){
 		}
 	}
 }
-int rankFlat(Bitmap* map);
-int rankHeight(Bitmap* map){
+
+int Board::rankFlat(Bitmap* map) {
+  int SCORE_MULTIPLIER = -10;
+
+  float slope = 0;
+  float slopeChange = 0;
+  for (int i = 0; i < cols - 3; i++) {
+    float a, b, c, d;
+    for (int j = rows-1; j > 0; j--) {
+      if (map[j][i]) {
+        a = j;
+      }
+    }
+    for (int j = rows-1; j > 0; j--) {
+      if (map[j][i + 1]) {
+        b = j;
+      }
+    }
+    for (int j = rows-1; j > 0; j--) {
+      if (map[j][i + 2]) {
+        c = j;
+      }
+    }
+    for (int j = rows-1; j > 0; j--) {
+      if (map[j][i + 3]) {
+        d = j;
+      }
+    }
+
+    float temp = b - a + c - a + d - a;
+    temp /= 4.f;
+    slopeChange += Math.abs(slope - temp);
+    slope = temp;
+  }
+  // score based on slopeChange.
+  return slopeChange * SCORE_MULTIPLIER;
+}
+
+int Board::rankHeight(Bitmap* map){
 	int SCORE_HEIGHT = -1;
 	int final_score = 0;
 	for(int j = 0; j < COLS; j++){
@@ -406,10 +443,10 @@ int rankHeight(Bitmap* map){
 	}
 	return final_score;
 }
-int rankFuture(Bitmap* map){
+
+int Board::rankFuture(Bitmap* map){
 	return 0;
 }
-
 
 int main(int argc, char** argv) {
   // Construct a JSON Object with the given game state.

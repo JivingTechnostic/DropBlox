@@ -446,6 +446,8 @@ struct ScoredBlock {
   vector<String> path;
 };
 
+bool myfunction (ScoredBlock a,ScoredBlock b) { return (a.score > b.score); }
+
 int main(int argc, char** argv) {
   // Construct a JSON Object with the given game state.
   istringstream raw_state(argv[1]);
@@ -459,13 +461,16 @@ int main(int argc, char** argv) {
   vector<ScoredBlock> scoredBlocks();
   for (int i = 0; i < possibilities.size(); i++) {
     ScoredBlock b;
-    b.b = possiblies[i];
-    b.score = rankAll(possiblies[i]);
-    b.path = find_path(board.block, possiblies[i]);
+    b.b = possibilities[i];
+    b.score = rankAll(possibilities[i]);
+    b.path = find_path(board.block, possibilities[i]);
+	scoredBlocks.push_back(b);
+	std::sort(scoredBlocks.begin(), scoredBlocks.end(), myfunction);
+	
   }
   
   // Make some moves!
-  vector<string> moves;
+  vector<string> moves = scoredBlocks[0];
   while (board.check(*board.block)) {
     board.block->left();
     moves.push_back("left");

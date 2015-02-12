@@ -184,7 +184,7 @@ bool Board::check(const Block& query) const {
 vector<string> Board::find_path(Block* start, Block* end){
 	vector<string> commands;
 	while(end.translation != start.translation){
-		while(end.translation.i != start.translation.i){
+		while(end.translation.j != start.translation.j){
 			end.up();
 			if(check(end)){
 				commands.push_back("down");
@@ -220,11 +220,11 @@ vector<string> Board::find_path(Block* start, Block* end){
 				}
 			}
 		}
-		if(end.translation.j > start.translation.j){
+		if(end.translation.i > start.translation.i){
 			end.left();
 			commands.push_back("right");
 		}
-		else if(end.translation.j < start.translation.j){
+		else if(end.translation.i < start.translation.i){
 			end.right();
 			commands.push_back("left");
 		}
@@ -340,18 +340,15 @@ void Board::remove_rows(Bitmap* new_bitmap) {
 
 int Board::rankAll(Block* block){
 	Bitmap* new_bitmap = &bitmap;
-	int final_score = 0;
 	for(i = 0; i < block.offsets.size(); i++){
 		Point p = block.offsets[i];
-		Point c = block.center;
-		Point t = block.translation;
-		new_bitmap[p.i+c.i+t.i][p.j+c.i+t.i] = 1;
+		new_bitmap[p.i][p.j] = 1;
 	}
-	final_score += rankLine(new_bitmap);
-	final_score += rankHole(new_bitmap);
-	final_score += rankFlat(new_bitmap);
-	final_score += rankHeight(new_bitmap);
-	final_score += rankFuture(new_bitmap);
+	rankLine(new_bitmap);
+	rankHole(new_bitmap);
+	rankFlat(new_bitmap);
+	rankHeight(new_bitmap);
+	rankFuture(new_bitmap);
 }
 
 //complete lines and partial lines
@@ -440,24 +437,8 @@ int Board::rankFlat(Bitmap* map) {
   return slopeChange * SCORE_MULTIPLIER;
 }
 
-int Board::rankHeight(Bitmap* map){
-	int SCORE_HEIGHT = -1;
-	int final_score = 0;
-	for(int j = 0; j < COLS; j++){
-		int height = 0;
-		for(int i = ROWS-1; i >= 0; i--){
-			if(map[i][j] == 1){
-				height = i;
-			}
-		}
-		final_score += SCORE_HEIGHT * height * min(j,COLS-j);
-	}
-	return final_score;
-}
-
-int Board::rankFuture(Bitmap* map){
-	return 0;
-}
+int Board::rankHeight(Bitmap* map);
+int Board::rankFuture(Bitmap* map);
 
 struct ScoredBlock {
   Block* b;
@@ -473,7 +454,7 @@ int main(int argc, char** argv) {
 
   // Construct a board from this Object.
   Board board(state);
-
+/*
   vector<Block*> possibilities = board.checkAllPositions(*board.block);
   vector<ScoredBlock> scoredBlocks();
   for (int i = 0; i < possibilities.size(); i++) {
@@ -488,13 +469,21 @@ int main(int argc, char** argv) {
   while (board.check(*board.block)) {
     board.block->left();
     moves.push_back("left");
-  }
+  }*/
 
+  int pos =   Math.rand()%board.rows - board.rows/2;
+  for (int i = 0; i < Math.abs(pos); i++) {
+    if (pos < 0) {
+
+      cout << "left" << endl;
+    } else {
+      cout << "right" << endl;
+    }
+  }
+  cout << "place" << endl;
   // Ignore the last move, because it moved the block into invalid
   // position. Make all the rest.
-  for (int i = 0; i < moves.size() - 1; i++) {
-    cout << moves[i] << endl;
-  }
+
 }
 
 vector <Block*> Board::checkAllPositions(Block baseBlock) {

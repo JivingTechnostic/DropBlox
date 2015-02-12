@@ -204,6 +204,7 @@ vector<string> Board::find_path(Block* start, Block* end){
 					else{
 						end.right();
 						end.rotate();
+						commands.push_back("rotate");
 						int rot = 1;
 						while(!check(end)){
 							end.rotate();

@@ -102,6 +102,22 @@ class Board {
   static void remove_rows(Bitmap* new_bitmap);
   
   int rankAll(Block* block);
+  int rankLine(Bitmap* map);
+  int rankHole(Bitmap* map);
+  int rankFlat(Bitmap* map);
+  int rankHeight(Bitmap* map);
+  int rankFuture(Bitmap* map);
+  Positive
+Complete lines
+filling holes
+producing flat top
+
+
+Negative
+height
+producing closed holes
+producing open holes
+Comparison with future
   
  private:
   Board();

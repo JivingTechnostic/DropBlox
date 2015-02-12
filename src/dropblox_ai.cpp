@@ -277,6 +277,72 @@ void Board::remove_rows(Bitmap* new_bitmap) {
   }
 }
 
+int Board::rankAll(Block* block){
+	Bitmap* new_bitmap = &bitmap;
+	for(i = 0; i < block.offsets.size(); i++){
+		Point p = block.offsets[i];
+		new_bitmap[p.i][p.j] = 1;
+	}
+	rankLine(new_bitmap);
+	rankHole(new_bitmap);
+	rankFlat(new_bitmap);
+	rankHeight(new_bitmap);
+	rankFuture(new_bitmap);
+}
+
+//complete lines and partial lines
+int rankLine(Bitmap* map){
+	int SCORE_LINE = 100;
+	int SCORE_PARTIAL = 1;
+	int line_score;
+	int final_score = 0;
+	for(int i = 0; i < ROWS; i++){
+		line_score = 0;
+		for(int j = 0; j < COLS; j++){
+			if(map[i][j] == 1){
+				line_score++;
+			}
+		}
+		if(line_score == COLS){
+			final_score += SCORE_LINE;
+		}
+		else{
+			final_score += SCORE_PARTIAL;
+		}
+	}
+	return final_score;
+}
+
+
+int rankHole(Bitmap* map){
+	int SCORE_OPEN = -10;
+	int SCORE_CLOSED = - 100;
+	int SCORE_FILL = 25;
+	int final_score = 0;
+	for(int j = 0; j < COLS; j++){
+		int isHole = 0;
+		for(int i = 0; i < ROWS; i++){
+			if(map[i][j] == 0){
+				isHole += 1;
+				if(map[max(0,i-1)][j] == 1 && map[min(ROWS,i+1)][j] == 1 && map[i][min(COLS,j+1)] == 1 && map[i][max(0,j-1)] == 1){
+					final_score += SCORE_CLOSED;
+					break;
+				}
+			}
+			if(map[i][j] == 1){
+				if(isHole > 0){
+					final_score += SCORE_OPEN * min(10, isHole);
+					isHole = 0;
+				}
+			}
+		}
+	}
+}
+int rankFlat(Bitmap* map);
+int rankHeight(Bitmap* map);
+int rankFuture(Bitmap* map);
+
+
 int main(int argc, char** argv) {
   // Construct a JSON Object with the given game state.
   istringstream raw_state(argv[1]);

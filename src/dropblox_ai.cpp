@@ -450,6 +450,12 @@ int Board::rankFuture(Bitmap* map){
 	return 0;
 }
 
+struct ScoredBlock {
+  Block* b;
+  int score;
+  vector<String> path;
+};
+
 int main(int argc, char** argv) {
   // Construct a JSON Object with the given game state.
   istringstream raw_state(argv[1]);
@@ -459,12 +465,22 @@ int main(int argc, char** argv) {
   // Construct a board from this Object.
   Board board(state);
 
+  vector<Block*> possibilities = board.checkAllPositions(*board.block);
+  vector<ScoredBlock> scoredBlocks();
+  for (int i = 0; i < possibilities.size(); i++) {
+    ScoredBlock b;
+    b.b = possiblies[i];
+    b.score = rankAll(possiblies[i]);
+    b.path = find_path(board.block, possiblies[i]);
+  }
+  
   // Make some moves!
   vector<string> moves;
   while (board.check(*board.block)) {
     board.block->left();
     moves.push_back("left");
   }
+
   // Ignore the last move, because it moved the block into invalid
   // position. Make all the rest.
   for (int i = 0; i < moves.size() - 1; i++) {

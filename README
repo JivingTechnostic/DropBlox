@@ -3,3 +3,37 @@ Please visit http://playdropblox.com/dropblox_intro.html for the latest document
 Windows users: 
 dropblox_ai.bat is a batch file that will execute python dropblox_ai
 If dropblox_ai is not a python script, delete this file.
+
+
+To compile this library on a computer with g++, use
+
+  g++ ./dropblox_ai dropblox.cpp
+
+or invoke the included Makefile. Compilation with other tools should be similar.
+
+This ./dropblox_ai binary satisfies the competition spec - simply copy it the
+directory with your client to use it!
+
+Weighted System
+
+Positive
+Complete lines
+filling holes
+producing flat top
+
+
+Negative
+height
+producing closed holes
+producing open holes
+Comparison with future
+
+Check all the potential locations
+Compile a list of all valid locations, generate score for all of them
+From the top, try to generate a list of moves that place the block there.
+
+Task List:
+-Check all potential locations and generate a list of valid ones.
+-Ranking system
+-Path generation
+-Tuning the ranking system

@@ -184,7 +184,7 @@ bool Board::check(const Block& query) const {
 vector<string> Board::find_path(Block* start, Block* end){
 	vector<string> commands;
 	while(end.translation != start.translation){
-		while(end.translation.j != start.translation.j){
+		while(end.translation.i != start.translation.i){
 			end.up();
 			if(check(end)){
 				commands.push_back("down");
@@ -211,11 +211,11 @@ vector<string> Board::find_path(Block* start, Block* end){
 				}
 			}
 		}
-		if(end.translation.i > start.translation.i){
+		if(end.translation.j > start.translation.j){
 			end.left();
 			commands.push_back("right");
 		}
-		else if(end.translation.i < start.translation.i){
+		else if(end.translation.j < start.translation.j){
 			end.right();
 			commands.push_back("left");
 		}

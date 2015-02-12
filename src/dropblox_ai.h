@@ -107,18 +107,9 @@ class Board {
   int rankFlat(Bitmap* map);
   int rankHeight(Bitmap* map);
   int rankFuture(Bitmap* map);
-  Positive
-Complete lines
-filling holes
-producing flat top
 
+  vector <Block*> checkAllPositions(Block baseBlock);
 
-Negative
-height
-producing closed holes
-producing open holes
-Comparison with future
-  
  private:
   Board();
 };

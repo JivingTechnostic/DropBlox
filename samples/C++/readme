@@ -23,4 +23,10 @@ Comparison with future
 
 Check all the potential locations
 Compile a list of all valid locations, generate score for all of them
-From the top, try to generate a list of moves that place the block there.	
+From the top, try to generate a list of moves that place the block there.
+
+Task List:
+-Check all potential locations and generate a list of valid ones.
+-Ranking system
+-Path generation
+-Tuning the ranking system
